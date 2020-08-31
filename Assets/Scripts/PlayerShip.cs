@@ -8,6 +8,7 @@ public class PlayerShip : MonoBehaviour
     [SerializeField] float _TurnSpeed = 3f;
 
     Rigidbody _rb = null;
+    ParticleSystem _CachedSystem = null;
 
     private void Awake()
     {
@@ -29,18 +30,26 @@ public class PlayerShip : MonoBehaviour
         Vector3 moveDirection = transform.forward * moveAmountThisFrame;
         //apply movement to the object
         _rb.AddForce(moveDirection);
+        
     }
 
     //turning (key turning likely)
     void TurnShip()
     {
         //A/left = -1, D/right = 1, none = 0
-        float turnAmountThisFrame = Input.GetAxisRaw("Horizontal") * _TurnSpeed;
+        float turnAmountThisFrame = Input.GetAxisRaw("Horizontal") * -_TurnSpeed;
         //specify axis
         Quaternion turnOffset = Quaternion.Euler(0, turnAmountThisFrame, 0);
         //spiin
         _rb.MoveRotation(_rb.rotation * turnOffset);
     }
 
-   
+    public void Kill()
+    {
+        Debug.Log("Conan has been the murdered");
+        this.gameObject.SetActive(false);
+    }
+
+    
 }
+
